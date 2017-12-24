@@ -54,14 +54,30 @@
 		52814B4C1FEF7BFB00C145DC /* eTalk */ = {
 			isa = PBXGroup;
 			children = (
-				52814B4D1FEF7BFB00C145DC /* AppDelegate.swift */,
-				52814B4F1FEF7BFB00C145DC /* ViewController.swift */,
 				52814B511FEF7BFB00C145DC /* Main.storyboard */,
+				52814B601FEF7CAE00C145DC /* View Controller */,
+				52814B5F1FEF7CA300C145DC /* Supporting Files */,
+			);
+			path = eTalk;
+			sourceTree = "<group>";
+		};
+		52814B5F1FEF7CA300C145DC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				52814B4D1FEF7BFB00C145DC /* AppDelegate.swift */,
 				52814B541FEF7BFB00C145DC /* Assets.xcassets */,
 				52814B561FEF7BFB00C145DC /* LaunchScreen.storyboard */,
 				52814B591FEF7BFB00C145DC /* Info.plist */,
 			);
-			path = eTalk;
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		52814B601FEF7CAE00C145DC /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				52814B4F1FEF7BFB00C145DC /* ViewController.swift */,
+			);
+			name = "View Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
