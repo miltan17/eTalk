@@ -23,13 +23,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="voQ-nW-7bv">
-                                <rect key="frame" x="8" y="73" width="398" height="368"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i6N-x3-IFF">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="65"/>
                                 <color key="backgroundColor" red="1" green="0.4521545667966087" blue="0.17053512986689479" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -37,6 +30,12 @@
                                     <constraint firstAttribute="height" constant="65" id="3f1-q8-0fd"/>
                                 </constraints>
                             </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="atR-cG-C5N">
+                                <rect key="frame" x="8" y="73" width="398" height="368"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RDj-d0-qMb">
                                 <rect key="frame" x="182" y="451" width="50" height="50.333333333333314"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -50,25 +49,25 @@
                         <constraints>
                             <constraint firstItem="i6N-x3-IFF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="0Vi-Rr-xvx"/>
                             <constraint firstItem="i6N-x3-IFF" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="2nT-D5-eLt"/>
-                            <constraint firstItem="voQ-nW-7bv" firstAttribute="top" secondItem="i6N-x3-IFF" secondAttribute="bottom" constant="8" id="AGU-qL-7Kf"/>
                             <constraint firstItem="RDj-d0-qMb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DVF-pK-bbp"/>
                             <constraint firstAttribute="trailing" secondItem="i6N-x3-IFF" secondAttribute="trailing" id="FCB-E5-vri"/>
-                            <constraint firstAttribute="trailing" secondItem="voQ-nW-7bv" secondAttribute="trailing" constant="8" id="Nq6-Pf-ARY"/>
-                            <constraint firstItem="voQ-nW-7bv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="8" id="fRm-j4-QoY"/>
-                            <constraint firstItem="RDj-d0-qMb" firstAttribute="top" secondItem="voQ-nW-7bv" secondAttribute="bottom" constant="10" id="kaL-Ls-cCC"/>
+                            <constraint firstItem="RDj-d0-qMb" firstAttribute="top" secondItem="atR-cG-C5N" secondAttribute="bottom" constant="10" id="LmU-ve-RFX"/>
+                            <constraint firstAttribute="trailing" secondItem="atR-cG-C5N" secondAttribute="trailing" constant="8" id="O1A-3e-cOx"/>
+                            <constraint firstItem="atR-cG-C5N" firstAttribute="top" secondItem="i6N-x3-IFF" secondAttribute="bottom" constant="8" id="fnl-fU-ak4"/>
+                            <constraint firstItem="atR-cG-C5N" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="8" id="nc4-xi-Jy4"/>
+                            <constraint firstItem="atR-cG-C5N" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.5" id="uZi-N6-8S1"/>
                             <constraint firstItem="RDj-d0-qMb" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.12" id="vHm-JC-ZTS"/>
-                            <constraint firstItem="voQ-nW-7bv" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.5" id="vqo-2R-cE3"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" id="NPN-Kb-cee"/>
                     <connections>
+                        <outlet property="TextView" destination="atR-cG-C5N" id="A0M-LB-Ya7"/>
                         <outlet property="buttonView" destination="RDj-d0-qMb" id="kOc-Xp-wBK"/>
-                        <outlet property="textTextField" destination="voQ-nW-7bv" id="Mtm-xB-GZD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1060" y="-749.7751124437782"/>
+            <point key="canvasLocation" x="1059.4202898550725" y="-750.00000000000011"/>
         </scene>
         <!--Settings-->
         <scene sceneID="RUe-2a-eLW">

@@ -55,7 +55,7 @@ class Speech {
         self._speechText = ""
         self._multiplier = 1.0
         self._rate = 0.5
-        self._volume = 0.1
+        self._volume = 1.0
         self._language = "en_US"
     }
 

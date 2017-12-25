@@ -17,10 +17,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet weak var utterVolume: UISlider!
     @IBOutlet weak var utterVoice: UIPickerView!
     
-    var voices = [String: String]()
-    var voice = [String]()
+    
+    var idByRegion = [String: String]()
     var speech: Speech!
     
+    var voice = [String]()
     
     
     override func viewDidLoad() {
@@ -29,25 +30,51 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         utterVoice.dataSource = self
         utterVoice.delegate = self
         
-        setupPrimaryUI()
-        print("Settings View")
+        getVoiceRegion()
+    }
+    
+    func getVoiceRegion() {
+        for ( region , _ ) in idByRegion {
+            voice.append(region)
+        }
+        voice.sort()
+
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("Speech Found Here")
+        updateUI()
     }
     
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        print("Settings Will Disappare")
+        updateSpeech()
     }
     
-    func setupPrimaryUI() {
-        utterRate.value = 0.5
-        utterMultiplier.value = 1.0
-        utterVolume.value = 0.5
+    func updateUI() {
+        utterRate.value = speech.rate
+        utterMultiplier.value = speech.multiplier
+        utterVolume.value = speech.volume
         
-        for ( _ , name ) in voices {
-            voice.append(name)
-        }
-        voice.sort()
+        // work with utter voice picker
+    }
+    
+    func updateSpeech(){
+        speech.setRate(utterRate.value)
+        speech.setVolume(utterVolume.value)
+        speech.setMultiplier(utterMultiplier.value)
+        speech.setLanguage(getLanguage())
+    }
+    
+    func getLanguage() -> String{
+        let region = voice[utterVoice.selectedRow(inComponent: 0)]
+        let language = idByRegion[region]!
+        
+        return language
     }
     
     

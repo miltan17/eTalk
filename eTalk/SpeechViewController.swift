@@ -11,10 +11,10 @@ import AVFoundation
 
 class SpeechViewController: UIViewController {
 
-    @IBOutlet weak var textTextField: UITextField!
+    @IBOutlet weak var TextView: UITextView!
     @IBOutlet weak var buttonView: UIView!
     
-    var voices = [String: String]()
+    var idByRegion = [String: String]()
     var synthesizer = AVSpeechSynthesizer()
     var speechUtterance: AVSpeechUtterance!
     var button: LSPlayPauseButton!
@@ -30,10 +30,17 @@ class SpeechViewController: UIViewController {
         speech = Speech()
         
         createButton()
-        getVoices()
+        getRegions()
         sendVoicesToSettingVC()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        sendSpeechToSettingsVC()
+    }
+    
+    
+    //MARK: - Fetch Data and Update UI
     
     func createButton() {
         button = LSPlayPauseButton(frame: CGRect(x: 0, y: 0, width: buttonView.layer.bounds.width, height: buttonView.layer.bounds.height), style: .youku, state: .pause)
@@ -43,25 +50,15 @@ class SpeechViewController: UIViewController {
     }
     
     
-    
-    func getVoices() {
+    func getRegions() {
         let locale = NSLocale(localeIdentifier: "en_US")
         
         let identifiers = getIdentifiers()
         for identifier in identifiers {
-            let name = locale.displayName(forKey: NSLocale.Key.identifier, value: identifier)!
-            voices[identifier] = name
+            let region = locale.displayName(forKey: NSLocale.Key.identifier, value: identifier)!
+            idByRegion[region] = identifier
         }
     }
-    
-    
-    func sendVoicesToSettingVC() {
-        let tabBarControllers = self.tabBarController?.viewControllers
-        let settingsViewController = tabBarControllers?[1] as! SettingsViewController
-        settingsViewController.voices = self.voices
-        
-    }
-    
     
     func getIdentifiers() -> [String]{
         var voiceList = [String]()
@@ -73,27 +70,42 @@ class SpeechViewController: UIViewController {
     }
     
     
+    //MARK: - Data Transfer
+    func sendVoicesToSettingVC() {
+        let settingsVC = getSettingsVC()
+        settingsVC.idByRegion = self.idByRegion
+    }
+    
+    func sendSpeechToSettingsVC() {
+        let settingsVC = getSettingsVC()
+        settingsVC.speech = speech
+    }
+    
+    func getSettingsVC() -> SettingsViewController {
+        let tabBarControllers = self.tabBarController?.viewControllers
+        let settingsViewController = tabBarControllers?[1] as! SettingsViewController
+        return settingsViewController
+    }
+    
+    
     //MARK: - Read Text
     
     func tap() {
         button.buttonState = .play
-        read()
-        
+        let text = getText()
+        readText(text)
     }
     
     
-    func read(){
-        if textTextField.text != "" {
-            if let text = textTextField.text{
-                speech?.setSpeechText(text)
-                readText(text)
-            }
+    func getText() -> String{
+        var text = ""
+        if TextView.text != "" {
+            text = TextView.text!
         }else{
-            let text = "Sorry, There is no text to read"
-            speech?.setSpeechText(text)
-            readText(text)
+            text = "Sorry, There is no text to read"
         }
-        
+        speech?.setSpeechText(text)
+        return text
     }
     
     
