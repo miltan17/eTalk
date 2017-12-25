@@ -19,25 +19,20 @@ class SpeechViewController: UIViewController {
     var speechUtterance: AVSpeechUtterance!
     var button: LSPlayPauseButton!
     
-    var rate: Float = 0.5
-    var multiplier: Float = 3.5
-    var volume: Float = 0.1
-    var language: String = "en_UK"
+    
+    var speech: Speech!
     
     //MARK: - view did load
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        speech = Speech()
+        
         createButton()
         getVoices()
-        
-        
-        let tabBarControllers = self.tabBarController?.viewControllers
-        let settingsViewController = tabBarControllers?[1] as! SettingsViewController
-        settingsViewController.voices = self.voices
+        sendVoicesToSettingVC()
     }
-    
     
     
     func createButton() {
@@ -57,6 +52,14 @@ class SpeechViewController: UIViewController {
             let name = locale.displayName(forKey: NSLocale.Key.identifier, value: identifier)!
             voices[identifier] = name
         }
+    }
+    
+    
+    func sendVoicesToSettingVC() {
+        let tabBarControllers = self.tabBarController?.viewControllers
+        let settingsViewController = tabBarControllers?[1] as! SettingsViewController
+        settingsViewController.voices = self.voices
+        
     }
     
     
@@ -82,10 +85,12 @@ class SpeechViewController: UIViewController {
     func read(){
         if textTextField.text != "" {
             if let text = textTextField.text{
+                speech?.setSpeechText(text)
                 readText(text)
             }
         }else{
             let text = "Sorry, There is no text to read"
+            speech?.setSpeechText(text)
             readText(text)
         }
         
@@ -95,10 +100,10 @@ class SpeechViewController: UIViewController {
     func readText(_ text: String){
         speechUtterance = AVSpeechUtterance(string: text)
         
-        speechUtterance.rate = rate
-        speechUtterance.pitchMultiplier = multiplier
-        speechUtterance.volume = volume
-        speechUtterance.voice = AVSpeechSynthesisVoice(language: language)
+        speechUtterance.rate = speech.rate
+        speechUtterance.pitchMultiplier = speech.multiplier
+        speechUtterance.volume = speech.volume
+        speechUtterance.voice = AVSpeechSynthesisVoice(language: speech.language)
         synthesizer.speak(speechUtterance)
 
     }

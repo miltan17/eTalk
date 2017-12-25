@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		526987641FF12434002A6F94 /* Speech.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526987631FF12434002A6F94 /* Speech.swift */; };
 		52814B4E1FEF7BFB00C145DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52814B4D1FEF7BFB00C145DC /* AppDelegate.swift */; };
 		52814B501FEF7BFB00C145DC /* SpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52814B4F1FEF7BFB00C145DC /* SpeechViewController.swift */; };
 		52814B531FEF7BFB00C145DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52814B511FEF7BFB00C145DC /* Main.storyboard */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		526987631FF12434002A6F94 /* Speech.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Speech.swift; sourceTree = "<group>"; };
 		52814B4A1FEF7BFB00C145DC /* eTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52814B4D1FEF7BFB00C145DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52814B4F1FEF7BFB00C145DC /* SpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechViewController.swift; sourceTree = "<group>"; };
@@ -39,6 +41,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		526987621FF1240B002A6F94 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				526987631FF12434002A6F94 /* Speech.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		52814B411FEF7BFB00C145DC = {
 			isa = PBXGroup;
 			children = (
@@ -58,6 +68,7 @@
 		52814B4C1FEF7BFB00C145DC /* eTalk */ = {
 			isa = PBXGroup;
 			children = (
+				526987621FF1240B002A6F94 /* Model */,
 				52814B611FEFC4A500C145DC /* View */,
 				52814B511FEF7BFB00C145DC /* Main.storyboard */,
 				52814B601FEF7CAE00C145DC /* View Controller */,
@@ -172,6 +183,7 @@
 				52814B651FEFCEDB00C145DC /* LSPlayPauseButton.swift in Sources */,
 				52814B4E1FEF7BFB00C145DC /* AppDelegate.swift in Sources */,
 				52DCBD291FF03F1C00CEFE09 /* SettingsViewController.swift in Sources */,
+				526987641FF12434002A6F94 /* Speech.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

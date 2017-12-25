@@ -19,6 +19,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     var voices = [String: String]()
     var voice = [String]()
+    var speech: Speech!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,12 +30,20 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         utterVoice.delegate = self
         
         setupPrimaryUI()
+        print("Settings View")
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
     }
     
     func setupPrimaryUI() {
         utterRate.value = 0.5
         utterMultiplier.value = 1.0
         utterVolume.value = 0.5
+        
         for ( _ , name ) in voices {
             voice.append(name)
         }
@@ -54,5 +65,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return voice[row]
     }
+    
 
 }
