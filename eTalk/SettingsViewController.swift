@@ -18,11 +18,12 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet weak var utterVoice: UIPickerView!
     
     
-    var idByRegion = [String: String]()
+    var languageByRegion = [String: String]() // [Region: Language]
     var speech: Speech!
     
-    var voice = [String]()
+    var regions = [String]()
     
+    //MARK: - VIEW ACTIVITY
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,46 +34,73 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         getVoiceRegion()
     }
     
-    func getVoiceRegion() {
-        for ( region , _ ) in idByRegion {
-            voice.append(region)
-        }
-        voice.sort()
-
-    }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("Speech Found Here")
         updateUI()
     }
     
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("Settings Will Disappare")
         updateSpeech()
     }
+
+    
+    //MARK: - DATA FETCH AND UPDATE UI
+    func getVoiceRegion() {
+        for ( region , _ ) in languageByRegion {
+            regions.append(region)
+        }
+        regions.sort()
+
+    }
+    
     
     func updateUI() {
-        utterRate.value = speech.rate
-        utterMultiplier.value = speech.multiplier
-        utterVolume.value = speech.volume
-        
-        // work with utter voice picker
+        UIView.animate(withDuration: 0.5, animations: {
+            self.utterRate.setValue(self.speech.rate, animated: true)
+            self.utterMultiplier.setValue(self.speech.multiplier, animated: true)
+            self.utterVolume.setValue(self.speech.volume, animated: true)
+            self.setUtterVoicePicker()
+        })
     }
+    
+    
+    func setUtterVoicePicker(){
+        let language = speech.language
+        
+        let region = getRegion(language)
+        if region != "" {
+            if let index = regions.index(of: region){
+                utterVoice.selectRow(index, inComponent: 0, animated: true)
+            }
+        }
+    }
+    
+    
+    func getRegion(_ language: String) -> String {
+        let regions = languageByRegion.keys
+        for region in regions {
+            if languageByRegion[region]! == language {
+                return region
+            }
+        }
+        return ""
+    }
+    
     
     func updateSpeech(){
         speech.setRate(utterRate.value)
         speech.setVolume(utterVolume.value)
         speech.setMultiplier(utterMultiplier.value)
-        speech.setLanguage(getLanguage())
+        let region = regions[utterVoice.selectedRow(inComponent: 0)]
+        speech.setLanguage(getLanguage(region))
     }
     
-    func getLanguage() -> String{
-        let region = voice[utterVoice.selectedRow(inComponent: 0)]
-        let language = idByRegion[region]!
+    
+    func getLanguage(_ region: String) -> String{
+        let language = languageByRegion[region]!
         
         return language
     }
@@ -85,13 +113,22 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return voice.count
+        return regions.count
     }
     
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return voice[row]
+        return regions[row]
     }
     
+    //MARK: - Button Action
+    @IBAction func setDefaultValueClicked(_ sender: UIButton) {
+        
+        speech.setMultiplier(1.0)
+        speech.setRate(0.5)
+        speech.setVolume(0.3)
+        speech.setLanguage("en-US")
+        updateUI()
+    }
 
 }

@@ -14,7 +14,7 @@ class SpeechViewController: UIViewController {
     @IBOutlet weak var TextView: UITextView!
     @IBOutlet weak var buttonView: UIView!
     
-    var idByRegion = [String: String]()
+    var languageByRegion = [String: String]()
     var synthesizer = AVSpeechSynthesizer()
     var speechUtterance: AVSpeechUtterance!
     var button: LSPlayPauseButton!
@@ -22,7 +22,7 @@ class SpeechViewController: UIViewController {
     
     var speech: Speech!
     
-    //MARK: - view did load
+    //MARK: - VIEW ACTIVITY
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +40,7 @@ class SpeechViewController: UIViewController {
     }
     
     
-    //MARK: - Fetch Data and Update UI
+    //MARK: - FETCH DATA AND UPDATE UI
     
     func createButton() {
         button = LSPlayPauseButton(frame: CGRect(x: 0, y: 0, width: buttonView.layer.bounds.width, height: buttonView.layer.bounds.height), style: .youku, state: .pause)
@@ -53,27 +53,27 @@ class SpeechViewController: UIViewController {
     func getRegions() {
         let locale = NSLocale(localeIdentifier: "en_US")
         
-        let identifiers = getIdentifiers()
-        for identifier in identifiers {
-            let region = locale.displayName(forKey: NSLocale.Key.identifier, value: identifier)!
-            idByRegion[region] = identifier
+        let languages = getLanguages()
+        for language in languages {
+            let region = locale.displayName(forKey: NSLocale.Key.identifier, value: language)!
+            languageByRegion[region] = language
         }
     }
     
-    func getIdentifiers() -> [String]{
-        var voiceList = [String]()
+    func getLanguages() -> [String]{
+        var languageList = [String]()
         let voices = AVSpeechSynthesisVoice.speechVoices()
         for voice in voices {
-            voiceList.append(voice.language)
+            languageList.append(voice.language)
         }
-        return voiceList
+        return languageList
     }
     
     
-    //MARK: - Data Transfer
+    //MARK: - DATA TRANSFER
     func sendVoicesToSettingVC() {
         let settingsVC = getSettingsVC()
-        settingsVC.idByRegion = self.idByRegion
+        settingsVC.languageByRegion = self.languageByRegion
     }
     
     func sendSpeechToSettingsVC() {
@@ -88,7 +88,7 @@ class SpeechViewController: UIViewController {
     }
     
     
-    //MARK: - Read Text
+    //MARK: - READ TEXT
     
     func tap() {
         button.buttonState = .play
