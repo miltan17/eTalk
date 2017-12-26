@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class SpeechViewController: UIViewController {
+class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
 
     @IBOutlet weak var TextView: UITextView!
     @IBOutlet weak var buttonView: UIView!
@@ -26,6 +26,7 @@ class SpeechViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        synthesizer.delegate = self
         
         speech = Speech()
         
@@ -117,7 +118,28 @@ class SpeechViewController: UIViewController {
         speechUtterance.volume = speech.volume
         speechUtterance.voice = AVSpeechSynthesisVoice(language: speech.language)
         synthesizer.speak(speechUtterance)
-
+        
+    }
+    
+    
+    //MARK: - AVSpeechSynthesiser Delegate
+    
+    
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
+        
+        let mutableAttributedString = NSMutableAttributedString(string: utterance.speechString)
+        mutableAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.blue, range:  NSMakeRange(0, (utterance.speechString as NSString).length))
+        mutableAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: characterRange)
+        TextView.attributedText = mutableAttributedString
+    }
+    
+    
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        
+        let mutableAttributedString = NSMutableAttributedString(attributedString: TextView.attributedText)
+        mutableAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.blue, range:  NSMakeRange(0, (utterance.speechString as NSString).length))
+        
+        TextView.attributedText = mutableAttributedString
     }
     
 }
