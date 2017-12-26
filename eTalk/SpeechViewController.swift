@@ -17,10 +17,11 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
     var languageByRegion = [String: String]()
     var synthesizer = AVSpeechSynthesizer()
     var speechUtterance: AVSpeechUtterance!
-    var button: LSPlayPauseButton!
+    var playPauseButton: LSPlayPauseButton!
     
     
     var speech: Speech!
+    var speechPaused: Bool!
     
     //MARK: - VIEW ACTIVITY
     
@@ -29,6 +30,7 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
         synthesizer.delegate = self
         
         speech = Speech()
+        speechPaused = false
         
         createButton()
         getRegions()
@@ -44,10 +46,10 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
     //MARK: - FETCH DATA AND UPDATE UI
     
     func createButton() {
-        button = LSPlayPauseButton(frame: CGRect(x: 0, y: 0, width: buttonView.layer.bounds.width, height: buttonView.layer.bounds.height), style: .youku, state: .pause)
-        button.addTarget(self, action: #selector(tap), for: .touchUpInside)
-        
-        buttonView.addSubview(button)
+        playPauseButton = LSPlayPauseButton(frame: CGRect(x: 0, y: 0, width: buttonView.layer.bounds.width, height: buttonView.layer.bounds.height), style: .youku, state: .pause)
+        playPauseButton.addTarget(self, action: #selector(tap), for: .touchUpInside)
+        playPauseButton.buttonState = .pause
+        buttonView.addSubview(playPauseButton)
     }
     
     
@@ -92,9 +94,20 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
     //MARK: - READ TEXT
     
     func tap() {
-        button.buttonState = .play
-        let text = getText()
-        readText(text)
+//        button.buttonState = .play
+        
+        if speechPaused == false{
+            synthesizer.continueSpeaking()
+            speechPaused = true
+        }else{
+            speechPaused = false
+            synthesizer.pauseSpeaking(at: AVSpeechBoundary.immediate)
+        }
+        
+        if synthesizer.isSpeaking == false {
+            let text = getText()
+            readText(text)
+        }
     }
     
     
@@ -122,6 +135,8 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
     }
     
     
+    
+    
     //MARK: - AVSpeechSynthesiser Delegate
     
     
@@ -133,8 +148,23 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
         TextView.attributedText = mutableAttributedString
     }
     
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
+        playPauseButton.buttonState = .play
+    }
+    
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didPause utterance: AVSpeechUtterance) {
+        playPauseButton.buttonState = .pause
+    }
+    
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didContinue utterance: AVSpeechUtterance) {
+        playPauseButton.buttonState = .play
+    }
+    
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        
+        speechPaused = false
+        playPauseButton.buttonState = .pause
         
         let mutableAttributedString = NSMutableAttributedString(attributedString: TextView.attributedText)
         mutableAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.blue, range:  NSMakeRange(0, (utterance.speechString as NSString).length))
