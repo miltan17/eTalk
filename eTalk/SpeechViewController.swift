@@ -136,14 +136,15 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
     
     
     
-    
     //MARK: - AVSpeechSynthesiser Delegate
     
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
-        
+        let fullTextRange = NSMakeRange(0, characterRange.location)
         let mutableAttributedString = NSMutableAttributedString(string: utterance.speechString)
-        mutableAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.blue, range:  NSMakeRange(0, (utterance.speechString as NSString).length))
+        mutableAttributedString.addAttribute(NSForegroundColorAttributeName,
+                                             value: UIColor(colorLiteralRed: 81/255, green: 121/255, blue: 80/255, alpha: 1.0) ,
+                                             range:  fullTextRange)
         mutableAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: characterRange)
         TextView.attributedText = mutableAttributedString
     }
@@ -165,11 +166,6 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
         
         speechPaused = false
         playPauseButton.buttonState = .pause
-        
-        let mutableAttributedString = NSMutableAttributedString(attributedString: TextView.attributedText)
-        mutableAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.blue, range:  NSMakeRange(0, (utterance.speechString as NSString).length))
-        
-        TextView.attributedText = mutableAttributedString
     }
     
 }

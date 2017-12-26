@@ -121,6 +121,14 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         return regions[row]
     }
     
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        let color = UIColor(colorLiteralRed: 92/255, green: 94/255, blue: 102/255, alpha: 1.0)
+        let titleData = regions[row]
+        let myTitle = NSAttributedString(string: titleData, attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Bold", size: 15.0)!,NSForegroundColorAttributeName: color])
+        return myTitle
+    }
+    
     //MARK: - Button Action
     @IBAction func setDefaultValueClicked(_ sender: UIButton) {
         

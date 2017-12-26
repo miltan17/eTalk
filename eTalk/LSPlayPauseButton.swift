@@ -49,10 +49,10 @@ public class LSPlayPauseButton: UIButton {
     fileprivate let kAnimationDuritionPosition = 0.3
     fileprivate let kAnimationDuritionYouku = 0.35
     
-    fileprivate let kColorLine = UIColor(red: 12.0 / 255.0, green: 190.0 / 255.0, blue: 6.0 / 255.0, alpha: 1)
-    fileprivate let kColorYoukuBlue = UIColor(red: 87.0 / 255.0, green: 157.0 / 255.0, blue: 254.0 / 255.0, alpha: 1)
-    fileprivate let kColorYoukuLightBlue = UIColor(red: 87.0 / 255.0, green: 188.0 / 255.0, blue: 253.0 / 255.0, alpha: 1)
-    fileprivate let kColorYoukuRed = UIColor(red: 87.0 / 255.0, green: 188.0 / 255.0, blue: 253.0 / 255.0, alpha: 1)
+    fileprivate let kColorLine = UIColor(red: 69.0 / 255.0, green: 68.0 / 255.0, blue: 80.0 / 255.0, alpha: 1)
+    fileprivate let kColorYoukuBlue = UIColor(red: 69.0 / 255.0, green: 68.0 / 255.0, blue: 80.0 / 255.0, alpha: 1)
+    fileprivate let kColorYoukuLightBlue = UIColor(red: 69.0 / 255.0, green: 68.0 / 255.0, blue: 80.0 / 255.0, alpha: 1)
+    fileprivate let kColorYoukuRed = UIColor(red: 69.0 / 255.0, green: 68.0 / 255.0, blue: 80.0 / 255.0, alpha: 1)
     
     fileprivate let kAnimationNameTriangle = "kAnimationNameTriangle"
     fileprivate let kAnimationNameRightLine = "kAnimationNameRightLine"

@@ -1,0 +1,18 @@
+
+/* Class = "UILabel"; text = "Multiplier"; ObjectID = "9O1-bw-eXD"; */
+"9O1-bw-eXD.text" = "Multiplier";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "NIn-s2-B6Q"; */
+"NIn-s2-B6Q.title" = "Settings";
+
+/* Class = "UITabBarItem"; title = "Home"; ObjectID = "NPN-Kb-cee"; */
+"NPN-Kb-cee.title" = "Home";
+
+/* Class = "UILabel"; text = "Rate"; ObjectID = "dsh-vo-u3O"; */
+"dsh-vo-u3O.text" = "Rate";
+
+/* Class = "UILabel"; text = "Volume"; ObjectID = "jo2-dQ-N3z"; */
+"jo2-dQ-N3z.text" = "Volume";
+
+/* Class = "UIButton"; normalTitle = "Default"; ObjectID = "ohS-Tm-ILK"; */
+"ohS-Tm-ILK.normalTitle" = "Default";
