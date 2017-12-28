@@ -9,25 +9,31 @@
 import UIKit
 import AVFoundation
 
-class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
+class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate, UITextViewDelegate {
 
     @IBOutlet weak var TextView: UITextView!
     @IBOutlet weak var buttonView: UIView!
     
     var languageByRegion = [String: String]()
     var synthesizer = AVSpeechSynthesizer()
-    var speechUtterance: AVSpeechUtterance!
     var playPauseButton: LSPlayPauseButton!
     
     
     var speech: Speech!
     var speechPaused: Bool!
+    let placeholderText = "Write Some Thing to Read..."
+    let warningText = "Sorry, There is no text to read"
     
     //MARK: - VIEW ACTIVITY
     
     override func viewDidLoad() {
         super.viewDidLoad()
         synthesizer.delegate = self
+        TextView.delegate = self
+        
+        TextView.text = placeholderText
+        TextView.textColor = UIColor.lightGray
+        
         
         speech = Speech()
         speechPaused = false
@@ -42,6 +48,35 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
         sendSpeechToSettingsVC()
     }
     
+    //MARK: - KEYBOARD DISAPPEAR
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+    //MARK: -  TEXTVIEW DELEGATE METHOD
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = placeholderText
+            textView.textColor = UIColor.lightGray
+        }
+        
+    }
     
     //MARK: - FETCH DATA AND UPDATE UI
     
@@ -94,8 +129,6 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
     //MARK: - READ TEXT
     
     func tap() {
-//        button.buttonState = .play
-        
         if speechPaused == false{
             synthesizer.continueSpeaking()
             speechPaused = true
@@ -113,18 +146,20 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
     
     func getText() -> String{
         var text = ""
-        if TextView.text != "" {
-            text = TextView.text!
+        if TextView.text == "" || TextView.text == placeholderText {
+            text = warningText
         }else{
-            text = "Sorry, There is no text to read"
+            text = TextView.text!
         }
+        
+        
         speech?.setSpeechText(text)
         return text
     }
     
     
     func readText(_ text: String){
-        speechUtterance = AVSpeechUtterance(string: text)
+        let speechUtterance = AVSpeechUtterance(string: text)
         
         speechUtterance.rate = speech.rate
         speechUtterance.pitchMultiplier = speech.multiplier
@@ -140,14 +175,34 @@ class SpeechViewController: UIViewController, AVSpeechSynthesizerDelegate {
     
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
-        let fullTextRange = NSMakeRange(0, characterRange.location)
+        if utterance.speechString != warningText{
+        let alreadyReadTextRange = NSMakeRange(0, characterRange.location)
         let mutableAttributedString = NSMutableAttributedString(string: utterance.speechString)
         mutableAttributedString.addAttribute(NSForegroundColorAttributeName,
                                              value: UIColor(colorLiteralRed: 81/255, green: 121/255, blue: 80/255, alpha: 1.0) ,
-                                             range:  fullTextRange)
+                                             range:  alreadyReadTextRange)
         mutableAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: characterRange)
         TextView.attributedText = mutableAttributedString
+        
+        }
+//        let nextString = getNextStringToSpeak(utterance.speechString, characterRange.location)
+////        print(nextString)
+////        synthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
+//        readText(nextString)
+        
     }
+    /*
+    func getNextStringToSpeak(_ text: String, _ offset: Int) -> String {
+        
+        let start = text.index(text.startIndex, offsetBy: offset)
+        let end = text.endIndex //text.index(text.endIndex, offsetBy: -6)
+        let range = start..<end
+        
+        let mySubstring = text[range]
+        let str = String(mySubstring)
+        return str!
+    }
+    */
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
         playPauseButton.buttonState = .play
